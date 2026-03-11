@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Para ti</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+background:black;
+color:white;
+font-family:"Trebuchet MS",sans-serif;
+text-align:center;
+overflow:hidden;
+}
+
+/* fondo */
+
+#background{
+position:fixed;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-2;
+opacity:0.55;
+transition:opacity 1s;
+}
+
+/* capa oscura para mejorar lectura */
+
+#overlay{
+position:fixed;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.45);
+backdrop-filter:blur(4px);
+z-index:-1;
+}
+
+/* tarjeta central */
+
+#card{
+background:rgba(0,0,0,0.55);
+padding:50px;
+border-radius:20px;
+box-shadow:0 0 40px rgba(0,0,0,0.8);
+max-width:700px;
+animation:fadeIn 2s;
+}
+
+/* texto */
+
+#text{
+font-size:2.2em;
+line-height:1.4;
+text-shadow:0 0 15px rgba(0,0,0,0.8);
+animation:fadeText 1s;
+}
+
+/* botones */
+
+button{
+padding:15px 30px;
+font-size:18px;
+border:none;
+border-radius:10px;
+background:white;
+cursor:pointer;
+margin-top:20px;
+}
+
+/* barra de música */
+
+#musicControls{
+position:absolute;
+bottom:25px;
+display:flex;
+align-items:center;
+gap:10px;
+background:rgba(0,0,0,0.6);
+padding:10px 18px;
+border-radius:15px;
+}
+
+/* volumen */
+
+input[type="range"]{
+width:120px;
+}
+
+#volumeTip{
+position:absolute;
+top:20px;
+font-size:14px;
+opacity:0.9;
+}
+
+/* animaciones */
+
+@keyframes fadeIn{
+from{opacity:0;transform:scale(0.95)}
+to{opacity:1;transform:scale(1)}
+}
+
+@keyframes fadeText{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+</style>
+</head>
+
+<body>
+
+<img id="background" src="gato1.jpg">
+<div id="overlay"></div>
+
+<div id="card">
+
+<div id="text">
+<button id="startButton" onclick="iniciar()">haz click aquí</button>
+</div>
+
+</div>
+
+<div id="volumeTip">
+🔊 sube el volumen para la experiencia
+</div>
+
+<!-- CONTROLES DE MUSICA -->
+
+<div id="musicControls">
+
+<button onclick="toggleMusic()">▶ / ⏸</button>
+
+<input type="range" min="0" max="1" step="0.01" value="0.7"
+oninput="cambiarVolumen(this.value)">
+
+</div>
+
+<audio id="music" loop>
+<source src="Momoi - Oh que será_ (momoi cover).mp3" type="audio/mpeg">
+</audio>
+
+<script>
+
+const pantallas = [
+
+{ texto:"Hola...", imagen:"gato1.jpg" },
+
+{ texto:"Sé que no hice nada en tu cumpleaños.", imagen:"gato2.jpg" },
+
+{ texto:"Llegué tarde. Qué sorpresa.", imagen:"gato3.jpg" },
+
+{ texto:"Pero bueno... tampoco soy bueno llegando a tiempo.", imagen:"gato4.jpg" },
+
+{ texto:"Solo quería decirte algo.", imagen:"gato5.jpg" },
+
+{ texto:"Te encuentro en cada pequeña cosa.", imagen:"gato6.jpg" },
+
+{ texto:"En cada canción que suena por ahí.", imagen:"gato7.jpg" },
+
+{ texto:"Y en cada cosita que me cuentas.", imagen:"gato8.jpg" },
+
+{ texto:"Eres una chica increíble.", imagen:"gato9.jpg" },
+
+{ texto:"Y bueno...", imagen:"gato10.jpg" },
+
+{ texto:"me gustas. un montón.", imagen:"gato11.jpg" },
+
+{ texto:"Feliz cumpleaños. Aunque llegue tarde.<br><br><small>PD: Prometo que esto no lo hizo ChatGPT.</small>", imagen:"gato12.jpg" }
+
+]
+
+let i = 0
+
+const music = document.getElementById("music")
+
+function iniciar(){
+
+document.getElementById("startButton").remove()
+
+music.play()
+
+document.body.onclick = cambiarPantalla
+
+cambiarPantalla()
+
+}
+
+function cambiarPantalla(){
+
+if(i >= pantallas.length) return
+
+document.getElementById("text").innerHTML = pantallas[i].texto
+
+document.getElementById("background").src = pantallas[i].imagen
+
+i++
+
+}
+
+/* musica */
+
+function toggleMusic(){
+
+if(music.paused){
+music.play()
+}else{
+music.pause()
+}
+
+}
+
+function cambiarVolumen(valor){
+
+music.volume = valor
+
+}
+
+</script>
+
+</body>
+</html>
